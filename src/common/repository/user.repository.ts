@@ -8,8 +8,10 @@ export class UserRepository extends Repository<User> {
     super(User, dataSource.createEntityManager());
   }
   async createUser(user: Partial<User>) {
-    const isUser = await this.findOneByOrFail({ email: user.email });
-    if (!isUser) throw new Error();
+    const isUser = await this.findOneBy({ email: user.email });
+    if (isUser !== null) {
+      throw new Error();
+    }
     return await this.save(user);
   }
 
