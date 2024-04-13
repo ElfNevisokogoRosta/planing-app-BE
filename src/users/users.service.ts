@@ -11,7 +11,9 @@ export class UsersService {
   constructor(private readonly userRepository: UserRepository) {}
   async createUser(user: CreateUserDto) {
     try {
-      return await this.userRepository.createUser(user);
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      const { password, ...rest } = await this.userRepository.createUser(user);
+      return rest;
     } catch (error) {
       throw new ConflictException();
     }

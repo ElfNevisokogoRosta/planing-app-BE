@@ -1,9 +1,4 @@
-import {
-  PipeTransform,
-  Injectable,
-  ArgumentMetadata,
-  BadRequestException,
-} from '@nestjs/common';
+import { PipeTransform, Injectable, BadRequestException } from '@nestjs/common';
 import * as bcrypt from 'bcrypt';
 import { IUser } from '../types/iUser';
 
@@ -12,15 +7,11 @@ require('dotenv').config();
 @Injectable()
 export class PassPipe implements PipeTransform {
   constructor() {}
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  async transform(value: IUser, _metadata: ArgumentMetadata) {
+  async transform(value: IUser) {
     try {
-      console.log(value);
       const saltOrRounds = process.env.SALT;
-      console.log(value.password);
-      const hash = await bcrypt.hash(value.password, saltOrRounds);
-      console.log(hash);
-      return { ...value, password: hash };
+      const hashedPassword = await bcrypt.hash(value.password, +saltOrRounds);
+      return { ...value, password: hashedPassword };
     } catch (error) {
       throw new BadRequestException('Validation failed');
     }

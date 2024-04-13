@@ -2,7 +2,7 @@ interface IUser {
   username?: string;
   password: string;
   email: string;
-  token?: string;
+  access_token?: string;
   id?: number;
 }
 export { IUser };
