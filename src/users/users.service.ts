@@ -16,9 +16,19 @@ export class UsersService {
       throw new ConflictException();
     }
   }
+  async getUserInfo(email: string) {
+    try {
+      return await this.userRepository.getUserInfo(email);
+    } catch (error) {
+      throw new NotFoundException();
+    }
+  }
   async getUser(id: number) {
     try {
-      return await this.userRepository.getUser(id);
+      const user = await this.userRepository.getUser(id);
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      const { password, ...result } = user;
+      return result;
     } catch (error) {
       throw new NotFoundException();
     }

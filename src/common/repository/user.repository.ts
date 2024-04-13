@@ -20,6 +20,11 @@ export class UserRepository extends Repository<User> {
     if (!user) throw new Error();
     return user;
   }
+  async getUserInfo(email: string) {
+    const user = await this.findOne({ where: { email } });
+    if (!user) throw new Error();
+    return user;
+  }
   async updateUser(id: number, user: Partial<User>) {
     const isUser = await this.findOne({ where: { id: id } });
     if (!isUser) throw new Error();
